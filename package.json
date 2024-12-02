@@ -1,7 +1,7 @@
 {
-  "name": "simple-image-label",
+  "name": "@chour/simple-image-label",
   "private": false,
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "Javascript image annotate, use in deep learning",
   "source": "src/simpleImageLabel.js",
   "main": "libs/simpleImageLabel.js",
@@ -11,24 +11,28 @@
     "build": "parcel build --no-source-maps --no-cache --detailed-report && terser libs/simpleImageLabel.js -c passes=2 --compress --mangle --output ./libs/simpleImageLabel.js",
     "build:html": "parcel build index.html --dist-dir html --public-url ./ --no-source-maps --no-cache --detailed-report",
     "deploy": "git subtree push --prefix html origin pages",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "standard-version && git push --follow-tags && npm publish"
   },
-  "author": "king6180@gmail.com",
+  "author": "chour903@gmail.com",
   "license": "MIT",
   "devDependencies": {
     "@parcel/transformer-less": "^2.9.3",
+    "cssnano": "^7.0.6",
     "less": "^4.2.0",
-    "parcel": "^2.9.3",
+    "node-gyp-build-optional-packages": "^5.2.2",
+    "postcss": "^8.4.49",
+    "standard-version": "^9.5.0",
     "terser": "^5.19.4"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/king2088/simple-image-label.git"
+    "url": "https://github.com/CR903/simple-image-label.git"
   },
   "bugs": {
-    "url": "https://github.com/king2088/simple-image-label/issues"
+    "url": "https://github.com/CR903/simple-image-label/issues"
   },
-  "homepage": "https://github.com/king2088/simple-image-label",
+  "homepage": "https://github.com/CR903/simple-image-label",
   "keywords": [
     "image",
     "annotate",
