@@ -57,13 +57,13 @@ class SimpleImageLabel {
       this.imageLabelAreaEl.innerHTML = `
             <div class="__simple-image-label__">
                 <div class="s-image-content">
-                    <img id="label-bg_img" src="${this.imageUrl}">
-                    <div id="labelsContainer" class="label-content"></div>
+                    <img class="label-bg_img" src="${this.imageUrl}">
+                    <div class="labelsContainer label-content"></div>
                 </div>
             </div>
         `;
     }
-    const img = imageLabelAreaEl.getElementById('label-bg_img');
+    const img = this.imageLabelAreaEl.getElementsByClassName('label-bg_img')[0];
     if (img.src !== this.imageUrl) {
       img.src = this.imageUrl;
     }
@@ -76,7 +76,7 @@ class SimpleImageLabel {
         this.error(err);
       }
     };
-    this.labelsContainer = imageLabelAreaEl.getElementById('labelsContainer');
+    this.labelsContainer = this.imageLabelAreaEl.getElementsByClassName('labelsContainer')[0];
     this.initLabelElement();
   }
 

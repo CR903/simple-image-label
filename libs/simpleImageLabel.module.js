@@ -1,10 +1,11 @@
-import "./simpleImageLabel.css";
+import "./simpleImageLabel.module.css";
 
-"use strict";
+'use strict';
 function $9031b660573524d6$export$b7d58db314e0ac27(obj) {
     let objClone = Array.isArray(obj) ? [] : {};
-    if (obj && typeof obj === "object") {
+    if (obj && typeof obj === 'object') {
         for(let key in obj)if (obj.hasOwnProperty(key)) {
+            // 判断ojb子元素是否为对象，如果是，递归复制
             obj[key] && typeof obj[key];
             objClone[key] = obj[key];
         }
@@ -21,18 +22,18 @@ function $9031b660573524d6$export$8d92423c30b5888a() {
     return uuid;
 }
 function $9031b660573524d6$export$248d38f6296296c5(obj1, obj2) {
-    if (typeof obj1 !== "object" || typeof obj2 !== "object") return obj1 === obj2;
+    if (typeof obj1 !== 'object' || typeof obj2 !== 'object') return obj1 === obj2;
     for(let key in obj1)if (obj1.hasOwnProperty(key)) {
         if (obj1[key] !== obj2[key]) return false;
     }
     return true;
 }
 function $9031b660573524d6$export$526bad2e66ad9dff(str) {
-    if (str.indexOf("%") > -1) return +(str.replace("%", "") / 100);
-    if (str.indexOf("px") > -1) return +(str.replace("px", "") / 100);
+    if (str.indexOf('%') > -1) return +(str.replace('%', '') / 100);
+    if (str.indexOf('px') > -1) return +(str.replace('px', '') / 100);
 }
 function $9031b660573524d6$export$42dea53aa0f06782(num) {
-    return num * 100 + "%";
+    return num * 100 + '%';
 }
 function $9031b660573524d6$export$2176b0e68c10508f(imgUrl) {
     return new Promise((resolve, reject)=>{
@@ -49,11 +50,11 @@ function $9031b660573524d6$export$2176b0e68c10508f(imgUrl) {
 
 
 
-"use strict";
+'use strict';
 class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
     constructor(options){
         // 默认图片标注区域
-        this.imageLabelAreaEl = document.getElementById(options.el || "imageLabelArea");
+        this.imageLabelAreaEl = document.getElementById(options.el || 'imageLabelArea');
         // 图片路径
         this.imageUrl = options.imageUrl;
         // 标签集合
@@ -76,14 +77,14 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         this.$h = 0;
         // 8个缩放点
         this.resizeDotClasses = [
-            "n",
-            "s",
-            "w",
-            "e",
-            "nw",
-            "ne",
-            "sw",
-            "se"
+            'n',
+            's',
+            'w',
+            'e',
+            'nw',
+            'ne',
+            'sw',
+            'se'
         ]; // 上，下，左，右，左上，右上，左下， 右下
         this.resizeDotName = null; // 当前被点击的点名称
         // 新建的label
@@ -110,30 +111,30 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         this.imageLabelAreaEl.innerHTML = `
             <div class="__simple-image-label__">
                 <div class="s-image-content">
-                    <img id="label-bg_img" src="${this.imageUrl}">
-                    <div id="labelsContainer" class="label-content"></div>
+                    <img class="label-bg_img" src="${this.imageUrl}">
+                    <div class="labelsContainer label-content"></div>
                 </div>
             </div>
         `;
-        const img = document.getElementById("label-bg_img");
+        const img = this.imageLabelAreaEl.getElementsByClassName('label-bg_img')[0];
         if (img.src !== this.imageUrl) img.src = this.imageUrl;
         img.onload = ()=>{
             this.labelAreaEvent();
             this.resizeImage();
         };
         img.onerror = (err)=>{
-            if (this.error && typeof this.error === "function") this.error(err);
+            if (this.error && typeof this.error === 'function') this.error(err);
         };
-        this.labelsContainer = document.getElementById("labelsContainer");
+        this.labelsContainer = this.imageLabelAreaEl.getElementsByClassName('labelsContainer')[0];
         this.initLabelElement();
     }
     // 根据图片进行缩放宽度，如果图片宽度小于当前可视区域则__simple-image-label__宽度就 = 图片宽度，否则为100%
     resizeImage() {
         const setImg = ()=>{
             const { width: width } = this.imageInfo;
-            const imageContent = this.imageLabelAreaEl.querySelector(".__simple-image-label__");
+            const imageContent = this.imageLabelAreaEl.querySelector('.__simple-image-label__');
             if (this.imageLabelAreaEl.clientWidth >= width) imageContent.style.width = (0, $9031b660573524d6$export$42dea53aa0f06782)(width / this.imageLabelAreaEl.clientWidth);
-            else imageContent.style.width = "100%";
+            else imageContent.style.width = '100%';
             this.$w = this.labelsContainer.clientWidth;
             this.$h = this.labelsContainer.clientHeight;
         };
@@ -168,13 +169,13 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
             y: 0
         };
         this.labelItem = {
-            uuid: "",
+            uuid: '',
             x: 0,
             y: 0,
             width: 0,
             height: 0,
-            name: "",
-            color: ""
+            name: '',
+            color: ''
         };
         this.labelsContainer.onmousedown = (e)=>this.mousedown(e);
         // 鼠标移动事件
@@ -184,15 +185,15 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         // 右键点击
         this.labelsContainer.oncontextmenu = (e)=>{
             e.preventDefault();
-            if (this.contextmenu && typeof this.contextmenu === "function") this.contextmenu(e);
+            if (this.contextmenu && typeof this.contextmenu === 'function') this.contextmenu(e);
         };
         if (this.readOnly) {
-            window.removeEventListener("resize", this.resize.bind(this), false);
-            this.labelsContainer.style.cursor = "default";
+            window.removeEventListener('resize', this.resize.bind(this), false);
+            this.labelsContainer.style.cursor = 'default';
             this.clearAllLabelActive();
-        } else this.labelsContainer.style.cursor = "crosshair";
+        } else this.labelsContainer.style.cursor = 'crosshair';
         // 监听浏览器缩放,改变label的宽高
-        window.addEventListener("resize", this.resize.bind(this), false);
+        window.addEventListener('resize', this.resize.bind(this), false);
         this.resizeDotDisplayStatus();
     }
     resize() {
@@ -201,19 +202,19 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         this.resizeImage();
     }
     resizeDotDisplayStatus() {
-        const allResizeDot = document.querySelectorAll(".resize-dot");
+        const allResizeDot = document.querySelectorAll('.resize-dot');
         allResizeDot.forEach((el)=>{
-            if (this.readOnly) el.style.display = "none";
-            else el.style.display = "block";
+            if (this.readOnly) el.style.display = 'none';
+            else el.style.display = 'block';
         });
     }
     mousedown(e) {
         if (this.readOnly) return;
         if (e.button !== 0) return; // 不是左键点击则不操作
         this.isMouseDown = true;
-        const isLabelText = e.target.className.includes("label-text");
-        const isLabelItem = e.target.className.includes("label-item");
-        const isResizeDot = e.target.className.includes("resize-dot");
+        const isLabelText = e.target.className.includes('label-text');
+        const isLabelItem = e.target.className.includes('label-item');
+        const isResizeDot = e.target.className.includes('resize-dot');
         const uuid = isLabelItem ? e.target.id : e.target.parentNode.id;
         // 点击了边框上的点
         if (isResizeDot) {
@@ -253,9 +254,9 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
     }
     mousemove(e) {
         if (this.readOnly) return;
-        const isLabelText = e.target.className.includes("label-text");
-        const isLabelItem = e.target.className.includes("label-item");
-        const isResizeDot = e.target.className.includes("resize-dot");
+        const isLabelText = e.target.className.includes('label-text');
+        const isLabelItem = e.target.className.includes('label-item');
+        const isResizeDot = e.target.className.includes('resize-dot');
         const uuid = isLabelItem ? e.target.id : e.target.parentNode.id;
         if (!isResizeDot) {
             if (isLabelItem || isLabelText) {
@@ -297,7 +298,7 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
     }
     // 根据clientX及clientY获取labelsContainer相对于body的左侧x,y点的位置
     getLabelsContainerRelativePoints() {
-        const labelExternalEl = document.querySelector(".__simple-image-label__");
+        const labelExternalEl = document.querySelector('.__simple-image-label__');
         return {
             x: labelExternalEl.getBoundingClientRect().x,
             y: labelExternalEl.getBoundingClientRect().y
@@ -307,32 +308,32 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         const { x: x, y: y, width: width, height: height, uuid: uuid, color: color, name: name } = labelItem;
         this.clearAllLabelActive();
         // 创建label元素
-        const labelElement = document.createElement("div");
-        labelElement.className = "label-item";
+        const labelElement = document.createElement('div');
+        labelElement.className = 'label-item';
         labelElement.id = uuid;
         labelElement.style.left = (0, $9031b660573524d6$export$42dea53aa0f06782)(x);
         labelElement.style.top = (0, $9031b660573524d6$export$42dea53aa0f06782)(y);
         labelElement.style.width = (0, $9031b660573524d6$export$42dea53aa0f06782)(width);
         labelElement.style.height = (0, $9031b660573524d6$export$42dea53aa0f06782)(height);
-        labelElement.style.position = "absolute";
-        labelElement.style.border = "1px solid rgb(58,238,121)";
-        labelElement.style.backgroundColor = "rgba(191,191,191,.5)";
+        labelElement.style.position = 'absolute';
+        labelElement.style.border = '1px solid rgb(58,238,121)';
+        labelElement.style.backgroundColor = 'rgba(191,191,191,.5)';
         labelElement.style.zIndex = this.labels.length;
         if (color) labelElement.style.borderColor = color;
         // 设置data-uuid,可以通过e.target.uuid获取uuid的值
         // labelElement.setAttribute('data-uuid', uuid)
         // 创建可以拖动的点
         this.resizeDotClasses.forEach((resizeDotClass)=>{
-            const labelDragElement = document.createElement("div");
+            const labelDragElement = document.createElement('div');
             labelDragElement.className = `resize-dot resize-dot-${resizeDotClass}`;
             labelElement.appendChild(labelDragElement);
         });
         // 设置文字
-        const labelText = document.createElement("div");
-        labelText.className = "label-text";
+        const labelText = document.createElement('div');
+        labelText.className = 'label-text';
         labelText.innerText = name;
         if (name) {
-            labelText.style.display = "block";
+            labelText.style.display = 'block';
             if (color) labelText.style.color = color;
         }
         labelElement.appendChild(labelText);
@@ -364,7 +365,7 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         } else {
             // 原底部Y轴的距离
             const oldBottomY = this.labelItemTemp.y + this.labelItemTemp.height;
-            if (this.resizeDotName.includes("n")) {
+            if (this.resizeDotName.includes('n')) {
                 const _y = this.labelItemTemp.y - endPoint.y;
                 const _h = _y > 0 ? this.labelItemTemp.height + Math.abs(_y) : this.labelItemTemp.height - Math.abs(_y);
                 // 新旧label底部y距离顶部的距离
@@ -372,17 +373,17 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
                 label.style.top = (0, $9031b660573524d6$export$42dea53aa0f06782)(top);
                 label.style.height = (0, $9031b660573524d6$export$42dea53aa0f06782)(_h < 0 ? 0 : _h);
             }
-            if (this.resizeDotName.includes("s")) {
+            if (this.resizeDotName.includes('s')) {
                 const _h = endPoint.y - y;
                 label.style.height = (0, $9031b660573524d6$export$42dea53aa0f06782)(_h <= 0 ? 0 : _h);
             }
-            if (this.resizeDotName.includes("w")) {
+            if (this.resizeDotName.includes('w')) {
                 const _l = this.labelItemTemp.x + this.labelItemTemp.width - endPoint.x <= 0 ? this.labelItemTemp.x + this.labelItemTemp.width : endPoint.x;
                 label.style.left = (0, $9031b660573524d6$export$42dea53aa0f06782)(_l);
                 const _w = this.labelItemTemp.x - endPoint.x < 0 ? this.labelItemTemp.width - Math.abs(this.labelItemTemp.x - endPoint.x) : this.labelItemTemp.width + Math.abs(this.labelItemTemp.x - endPoint.x);
                 label.style.width = (0, $9031b660573524d6$export$42dea53aa0f06782)(_w <= 0 ? 0 : _w);
             }
-            if (this.resizeDotName.includes("e")) label.style.width = (0, $9031b660573524d6$export$42dea53aa0f06782)(x <= 0 ? endPoint.x : endPoint.x - x);
+            if (this.resizeDotName.includes('e')) label.style.width = (0, $9031b660573524d6$export$42dea53aa0f06782)(x <= 0 ? endPoint.x : endPoint.x - x);
         }
         const attr = {
             x: (0, $9031b660573524d6$export$526bad2e66ad9dff)(label.style.left),
@@ -400,14 +401,14 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
     setLabelByUuid(uuid, attr = {}) {
         const label = document.getElementById(uuid);
         if (!label) return;
-        const labelNameEl = label.querySelector(".label-text");
+        const labelNameEl = label.querySelector('.label-text');
         const keys = Object.keys(attr);
         this.labels.forEach((item)=>{
             if (item.uuid === uuid) keys.forEach((key)=>{
                 // if (Object.hasOwn(item, key)) {
                 item[key] = attr[key];
                 if (item.name) {
-                    labelNameEl.style.display = "block";
+                    labelNameEl.style.display = 'block';
                     labelNameEl.innerText = item.name;
                 }
                 if (item.color) {
@@ -423,11 +424,11 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         const label = document.getElementById(uuid);
         this.labels = Object.assign([], this.labels.filter((item)=>item.uuid !== uuid));
         if (label) label.parentNode.removeChild(label);
-        if (this.labelClick && typeof this.labelClick === "function") this.labelClick(null);
+        if (this.labelClick && typeof this.labelClick === 'function') this.labelClick(null);
     }
     // 删除所有label
     removeAllLabels() {
-        const labels = document.querySelectorAll(".label-item");
+        const labels = document.querySelectorAll('.label-item');
         labels.forEach((item)=>{
             item.parentNode.removeChild(item);
         });
@@ -436,10 +437,10 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
     // 清除所有标签的激活状态
     clearAllLabelActive() {
         // 获取所有labels元素
-        const labelElements = document.querySelectorAll(".label-item");
+        const labelElements = document.querySelectorAll('.label-item');
         // 如果存在labelElements，则移除className为label-active
         if (labelElements.length) labelElements.forEach((item)=>{
-            item.classList.remove("label-item-active");
+            item.classList.remove('label-item-active');
         });
     }
     // 设置当前label的激活状态
@@ -447,12 +448,12 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         const label = document.getElementById(uuid);
         if (!label) return;
         // 设置当前label的激活状态
-        label.classList.add("label-item-active");
-        if (this.labelClick && typeof this.labelClick === "function") this.labelClick(this.getLabelByUuid(uuid));
+        label.classList.add('label-item-active');
+        if (this.labelClick && typeof this.labelClick === 'function') this.labelClick(this.getLabelByUuid(uuid));
     }
     // 根据dot获取label
     getLabelDot(e) {
-        const dotType = e.target.className.replace("resize-dot resize-dot-", "");
+        const dotType = e.target.className.replace('resize-dot resize-dot-', '');
         this.clearAllLabelActive();
         this.setLabelActive(e.target.parentNode.id);
         return dotType;
@@ -462,13 +463,13 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         if (this.readOnly) return;
         const label = document.getElementById(uuid);
         if (!label) return;
-        label.style.cursor = "default";
+        label.style.cursor = 'default';
     }
     // 拖动事件
     dragListen(uuid, isText = false) {
         const label = document.getElementById(uuid);
         if (!label) return;
-        let textEl = isText ? label.querySelector(".label-text") : null;
+        let textEl = isText ? label.querySelector('.label-text') : null;
         if (isText) {
             textEl.onmousedown = (e)=>this.dragStart(e);
             textEl.onmousemove = (e)=>this.dragLabel(e);
@@ -482,7 +483,7 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
     removeDragListen(uuid, isText = false) {
         const label = document.getElementById(uuid);
         if (!label) return;
-        let textEl = isText ? label.querySelector(".label-text") : null;
+        let textEl = isText ? label.querySelector('.label-text') : null;
         label.onmousedown = null;
         label.onmousemove = null;
         label.onmouseup = null;
@@ -497,7 +498,7 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         if (this.readOnly) return;
         const label = document.getElementById(e.target.id || e.target.parentNode.id);
         if (!label) return;
-        label.style.cursor = "move";
+        label.style.cursor = 'move';
         this.labelRelativePointContainer.x = e.pageX - label.offsetLeft;
         this.labelRelativePointContainer.y = e.pageY - label.offsetTop;
         this.defaultZIndex = label.style.zIndex;
@@ -512,7 +513,7 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         const label = document.getElementById(e.target.id || e.target.parentNode.id);
         // 拖拽事件获取拖拽最终的坐标
         if (!label) return;
-        if (label.style.cursor === "default") return;
+        if (label.style.cursor === 'default') return;
         const currentLabelWidth = label.style.width ? (0, $9031b660573524d6$export$526bad2e66ad9dff)(label.style.width) : 0;
         const currentLabelHeight = label.style.height ? (0, $9031b660573524d6$export$526bad2e66ad9dff)(label.style.height) : 0;
         const leftPointPercent = 1 - currentLabelWidth; // 原label div 左侧的点与x轴0点的距离
@@ -527,7 +528,7 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
         if (this.readOnly) return;
         const label = document.getElementById(e.target.id || e.target.parentNode.id);
         if (!label) return;
-        label.style.cursor = "default";
+        label.style.cursor = 'default';
         this.labels.forEach((item)=>{
             if (item.uuid === e.target.id) {
                 item.x = (0, $9031b660573524d6$export$526bad2e66ad9dff)(label.style.left);
@@ -545,7 +546,7 @@ class $4b8e7a2fa3c0207e$var$SimpleImageLabel {
     }
     // 获取激活的label
     activeLabel() {
-        const uuid = document.querySelector(".label-item-active").id;
+        const uuid = document.querySelector('.label-item-active').id;
         return this.labels.find((item)=>item.uuid === uuid);
     }
     // 重新设置图片
